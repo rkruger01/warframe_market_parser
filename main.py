@@ -51,16 +51,19 @@ def price_comparer(gui):
     r = requests.get("https://api.warframe.market/v1/profile/{}/orders".format(uname), cookies=cookies)
     r_json = r.json()
     my_sell_orders = r_json["payload"]["sell_orders"]
+    gui_text_log.tag_config("warning", foreground="red")
     with open("prices.csv", "w") as f:
         f.write("item name, my sell price, current low\n")
         for order in my_sell_orders:
             item_low_price = min_price_fetcher(order["item"]["url_name"])
             absolute_difference = fabs(order["platinum"] - item_low_price)
             if absolute_difference > float(difference_threshold):
-                result = order["item"]["en"]["item_name"] + ",\t" + str(order["platinum"]) + ",\t" + str(
-                    item_low_price) + ",\tprice difference of " + str(absolute_difference) + "\n"
-                f.write(result)
-                gui_text_log.insert(tk.END, result)
+                result_no_price_difference = order["item"]["en"]["item_name"] + ",\t" + str(order["platinum"]) + ",\t" + str(
+                    item_low_price) + ",\t"
+                price_difference = "price difference of " + str(absolute_difference) + "\n"
+                f.write(result_no_price_difference + price_difference)
+                gui_text_log.insert(tk.END, result_no_price_difference)
+                gui_text_log.insert(tk.END, price_difference, "warning")
             else:
                 result = order["item"]["en"]["item_name"] + ",\t" + str(order["platinum"]) + ",\t" + str(item_low_price) + "\n"
                 f.write(result)
