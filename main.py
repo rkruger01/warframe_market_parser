@@ -48,12 +48,15 @@ def price_comparer(gui):
     ck = config['Default']['cookie']
     cookies = dict(JWT=ck)
     gui_text_log.insert(tk.END, "Fetching orders for {}\n".format(uname))
+    gui_text_log.insert(tk.END, "Using price difference threshold of {} platinum\n".format(difference_threshold))
     r = requests.get("https://api.warframe.market/v1/profile/{}/orders".format(uname), cookies=cookies)
     r_json = r.json()
     my_sell_orders = r_json["payload"]["sell_orders"]
     gui_text_log.tag_config("warning", foreground="red")
     with open("prices.csv", "w") as f:
-        f.write("item name, my sell price, current low\n")
+        header = "item name, my sell price, current low\n"
+        gui_text_log.insert(tk.END, header)
+        f.write(header)
         for order in my_sell_orders:
             item_low_price = min_price_fetcher(order["item"]["url_name"])
             absolute_difference = fabs(order["platinum"] - item_low_price)
