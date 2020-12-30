@@ -19,7 +19,7 @@ Note: Some anti-viruses flag this as a trojan. It's a false flag, but if this co
 - There should be a cookie with `Name: JWT`. Copy the `Value` field of this, and make note of it. You'll reuse it in a later step!
 - Note: This is your authentication key to warframe.market, so don't give it out!
 3. Generate the configuration file
-- The application expects a file called "config.txt" to be placed in the same directory as it.
+- The application expects a file called "config.txt" to be placed in the same directory as it (dist).
 - The layout of the file is as follows (copy and paste)
 
         [Default]
@@ -28,7 +28,7 @@ Note: Some anti-viruses flag this as a trojan. It's a false flag, but if this co
         cookie = [your cookie goes here]
 
 4. Run the application
-- Run main.exe, which will automatically take the information placed in the configuration file and store it internally.
+- Run dist/main.exe, which will automatically take the information placed in the configuration file and store it internally.
 - Once the application has loaded, press `Start` to have the application automatically contact warframe.market.
 - The application will display the items and prices that it is fetching, and store them in a .csv file called `prices.csv`.
 
