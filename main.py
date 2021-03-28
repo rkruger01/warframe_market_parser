@@ -25,14 +25,9 @@ class GUI(tk.Frame):
 
 
 def min_price_fetcher(url_name):
-    r = requests.get("https://api.warframe.market/v1/items/{}/orders".format(url_name))
+    r = requests.get("https://api.warframe.market/v1/items/{}/statistics".format(url_name))
     r_json = r.json()
-    orders = r_json["payload"]["orders"]
-    min = 999
-    for order in orders:
-        if order["order_type"] == "sell" and order["user"]["status"] == "ingame":
-            if order['platinum'] < min:
-                min = order['platinum']
+    min = r_json["payload"]["statistics_live"]["48hours"][len(r_json["payload"]["statistics_live"]["48hours"]) - 1]["min_price"]
     return min
 
 
